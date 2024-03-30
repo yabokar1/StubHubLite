@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { Password } from "../services/password";
 // An interface that describes the user properties
 interface UserAttrs {
   email: string;
@@ -30,15 +30,14 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// userSchema.statics.build = (attrs: UserAttrs) => {
-//   return new User(attrs);
-// };
+userSchema.pre("save", async function (done) {
+  if (this.isComModified("password")) {
+    const hashed = await Password.toHash(this.get("password"));
+    this.set("password", hashed);
+  }
+  done();
+});
 
 const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
-
-const user = User.build({
-  email: "test@test.com",
-  password: "password",
-});
 
 export { User };
