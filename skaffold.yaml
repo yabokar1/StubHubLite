@@ -8,11 +8,19 @@ build:
   local:
     push: false
   artifacts:
-    - image: yonis/auth
+    - image: yabokar1/auth
       context: auth
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
           - src: "src/**/*.ts"
+            dest: .
+    - image: yabokar1/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*.js"
             dest: .

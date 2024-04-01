@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: yonis/auth
+          image: yabokar1/auth
           env:
             - name: JWT_KEY
               valueFrom:
